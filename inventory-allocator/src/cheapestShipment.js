@@ -11,7 +11,7 @@ const cheapestShipment = (
     if(!orders) return [];
     if(!warehouses) return [];
     if(!Array.isArray(warehouses)) return [];
-
+    
 
 }
 
