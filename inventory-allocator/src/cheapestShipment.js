@@ -5,15 +5,12 @@
  * @returns {Array} - array of shipments from different warehourses i.e. [{owd : { apple : 1}}, { dm : { apple : 5}}]
  */
 const cheapestShipment = (
-    orders = {}, //orders must be an arra
+    orders = {}, 
     warehouses = []
 ) => {
     if(!orders) return [];
     if(!warehouses) return [];
-
     if(!Array.isArray(warehouses)) return [];
-
-
 
 
 }
