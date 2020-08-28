@@ -6,12 +6,44 @@
  */
 const cheapestShipment = (
     orders = {}, 
-    warehouses = []
+    warehouses = [] 
 ) => {
     if(!orders) return [];
     if(!warehouses) return [];
     if(!Array.isArray(warehouses)) return [];
-    
+
+    var shipment = [];
+
+    for(let w of warehouses) {
+
+        var shipmentEntry = {
+            [ w.name ] : {}
+        };
+
+        for(var item of Object.keys(orders)){
+
+            if(orders[item] === 0) continue;
+            if(w.inventory[item] !== undefined){
+
+                if(orders[item] > w.inventory[item]){
+                    shipmentEntry[w.name][item] = w.inventory[item];
+
+                    orders[item] -= w.inventory[item];
+                    w.inventory[item] = 0;
+
+                } else {
+                    shipmentEntry[w.name][item] = orders[item];
+                    w.inventory[item] -= orders[item];
+                    orders[item] = 0;
+                }
+
+            }
+        }
+
+        if(Object.keys(shipmentEntry[w.name]).length > 0) shipment.push(shipmentEntry);
+    }
+
+    return shipment;
 
 }
 
