@@ -28,108 +28,270 @@ describe("test invalid inputs" ,  () => {
         expect(cheapestOrder( order, 12 )).toEqual([]);
     })
 
+    test("returns empty array only given orders param", () => {
+        expect(cheapestOrder(order)).toEqual([]);
+    })
+
 })
 
 describe("test valid inputs" , () => {
-    test("orders with single warehourse", () => {
-    
-        var order = {
-            apple : 1
-        }
-    
-        var warehouses = [{
-                name : "owd",
-                inventory : {
-                    apple : 1
-                }
-        }]
-
-        var result = [
-            {
-                owd : {
-                    apple : 1
-                }
+    describe("order shipment with single warehourse", () => {
+        test("with exact inventory", () => {
+            var order = {
+                apple : 1
             }
-        ]
-
-        var orderResult1 = {
-            apple : 0
-        };
-
-        var warehousesResult1 = [
-            {
-                name : "owd",
-                inventory : {
-                    apple : 0
-                }
-            }
-        ]
+        
+            var warehouses = [{
+                    name : "owd",
+                    inventory : {
+                        apple : 1
+                    }
+            }]
     
-        expect(cheapestOrder( order, warehouses )).toEqual(result);
-        expect(order).toEqual(orderResult1);
-        expect(warehouses).toEqual(warehousesResult1);
+            var result = [
+                {
+                    owd : {
+                        apple : 1
+                    }
+                }
+            ]
+    
+            var orderResult = {
+                apple : 0
+            }
+    
+            var warehousesResult = [
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 0
+                    }
+                }
+            ]
+        
+            expect(cheapestOrder( order, warehouses )).toEqual(result);
+            expect(order).toEqual(orderResult);
+            expect(warehouses).toEqual(warehousesResult);
+        })
+
+        test("with excess inventory" , () => {
+            var order = {
+                apple : 1
+            }
+        
+            var warehouses = [{
+                    name : "owd",
+                    inventory : {
+                        apple : 10
+                    }
+            }]
+    
+            var result = [
+                {
+                    owd : {
+                        apple : 1
+                    }
+                }
+            ]
+    
+            var orderResult = {
+                apple : 0
+            }
+    
+            var warehousesResult = [
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 9
+                    }
+                }
+            ]
+
+            expect(cheapestOrder( order, warehouses )).toEqual(result);
+            expect(order).toEqual(orderResult);
+            expect(warehouses).toEqual(warehousesResult);
+        });
+    
     });
     
-    test("order shipment with multiple warehouses", () => {
-        var order = {
-            apple : 10
-        };
+    describe("order shipment with multiple warehouses", () => {
+        test("with exact inventory", () => {
+            var order = {
+                apple : 10
+            };
+    
+            var warehouses = [
+                {
+                    name : "dm",
+                    inventory : {
+                        apple : 5
+                    }
+                },
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 5
+                    }
+                }
+            ];
+    
+            var result = [
+                {
+                    dm : {
+                        apple : 5
+                    }
+                },
+                {
+                    owd : {
+                        apple : 5
+                    }
+                }
+            ]
+            
+            var orderResult = {
+                apple : 0
+            };
+    
+            var warehousesResult = [
+                {
+                    name : "dm",
+                    inventory : {
+                        apple : 0
+                    }
+                },
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 0
+                    }
+                }
+            ]
+    
+            expect(cheapestOrder(order, warehouses)).toEqual(result);
+            expect(order).toEqual(orderResult);
+            expect(warehouses).toEqual(warehousesResult);
+        });
 
-        var warehouses = [
-            {
-                name : "dm",
-                inventory : {
-                    apple : 5
+        test("with excess inventory", () => {
+            var order = {
+                apple : 10
+            };
+    
+            var warehouses = [
+                {
+                    name : "dm",
+                    inventory : {
+                        apple : 7
+                    }
+                },
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 20
+                    }
+                },
+                {
+                    name : "dog",
+                    inventory : {
+                        apple : 10
+                    }
                 }
-            },
-            {
-                name : "owd",
-                inventory : {
-                    apple : 5
+            ];
+    
+            var result = [
+                {
+                    dm : {
+                        apple : 7
+                    }
+                },
+                {
+                    owd : {
+                        apple : 3
+                    }
                 }
+            ]
+            
+            var orderResult = {
+                apple : 0
             }
-        ];
 
-        var result1 = [
-            {
-                dm : {
-                    apple : 5
+            var warehousesResult = [
+                {
+                    name : "dm",
+                    inventory : {
+                        apple : 0
+                    }
+                },
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 17
+                    }
+                },
+                {
+                    name : "dog",
+                    inventory : {
+                        apple : 10
+                    }
                 }
-            },
-            {
-                owd : {
-                    apple : 5
-                }
-            }
-        ]
+            ]
+    
+            expect(cheapestOrder(order, warehouses)).toEqual(result);
+            expect(order).toEqual(orderResult);
+            expect(warehouses).toEqual(warehousesResult);
+        })
 
-        var orderResult1 = {
-            apple : 0
-        }
-
-        var warehousesResult1 = [
-            {
-                name : "dm",
-                inventory : {
-                    apple : 0
-                }
-            },
-            {
-                name : "owd",
-                inventory : {
-                    apple : 0
-                }
-            }
-        ]
-
-        expect(cheapestOrder(order, warehouses)).toEqual(result1);
-        expect(order).toEqual(orderResult1);
-        expect(warehouses).toEqual(warehousesResult1);
 
     });
     
-    test("orders that cannot be shipped due to not enough inventory", () => {
-    
+    describe("orders that cannot be shipped" , () => {
+
+        test("due to not enough inventory", () => {
+            var order = {
+                apple : 10
+            };
+
+            var warehouses = [
+                {
+                    name : "owd",
+                    inventory : {
+                        apple : 1
+                    }
+                }
+            ]
+
+            expect(cheapestOrder(order, warehouses)).toEqual([]);
+            expect(order).toEqual(order);
+            expect(warehouses).toEqual(warehouses);
+        })
+
+        test("due to partial shipment", () => {
+            var order = {
+                apple : 10,
+                orange : 10
+            };
+
+            var warehouses = [
+                {
+                    name : "dod",
+                    inventory : {
+                        apple : 5,
+                        orange : 6
+                    }
+                },
+                {
+                    name : "aoa",
+                    inventory : {
+                        apple : 20
+                    }
+                }
+            ];
+
+            expect(cheapestOrder(order, warehouses)).toEqual([]);
+            expect(order).toEqual(order);
+            expect(warehouses).toEqual(warehouses);
+        })
+
     })
 
 })
