@@ -14,6 +14,10 @@ const cheapestShipment = (
 
     var shipment = [];
 
+    //assuming that orders and warehouses are mutated after the call
+    //making the inventory information of warehouses consistent
+    
+
     for(let w of warehouses) {
 
         var shipmentEntry = {
