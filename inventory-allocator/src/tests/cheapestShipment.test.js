@@ -1,4 +1,5 @@
-const cheapestOrder = require("./cheapestShipment");
+const cheapestShipment = require("../cheapestShipment");
+const { bigOrder, bigWarehouses, bigResult } = require("./largeInputs");
 
 describe("test invalid inputs" ,  () => {
 
@@ -17,17 +18,17 @@ describe("test invalid inputs" ,  () => {
     ];
 
     test('returns empty array null inputs', () => {
-        expect(cheapestOrder(null, null)).toEqual([]);
-        expect(cheapestOrder( order, null )).toEqual([]);
-        expect(cheapestOrder( null, warehouses )).toEqual([]);
+        expect(cheapestShipment(null, null)).toEqual([]);
+        expect(cheapestShipment( order, null )).toEqual([]);
+        expect(cheapestShipment( null, warehouses )).toEqual([]);
     });
 
     test("returns emtpy array on invalid warehouses type", () => { 
-        expect(cheapestOrder( order, 12 )).toEqual([]);
+        expect(cheapestShipment( order, 12 )).toEqual([]);
     });
 
     test("returns empty array only given orders param", () => {
-        expect(cheapestOrder(order)).toEqual([]);
+        expect(cheapestShipment(order)).toEqual([]);
     });
 });
 
@@ -39,12 +40,14 @@ describe("test valid inputs" , () => {
                     apple : 1
                 };
             
-                var warehouses = [{
+                var warehouses = [
+                    {
                         name : "owd",
                         inventory : {
                             apple : 1
                         }
-                }];
+                    }
+                ];
         
                 var result = [
                     {
@@ -67,7 +70,62 @@ describe("test valid inputs" , () => {
                     }
                 ];
             
-                expect(cheapestOrder( order, warehouses )).toEqual(result);
+                expect(cheapestShipment( order, warehouses )).toEqual(result);
+                expect(order).toEqual(orderResult);
+                expect(warehouses).toEqual(warehousesResult);
+            });
+
+            test("with exact inventory and large order", () => {
+                var order = {
+                    apple : 1,
+                    pear : 10,
+                    orange : 20,
+                    coconut : 10
+                };
+            
+                var warehouses = [
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 1,
+                            pear : 10,
+                            orange : 20,
+                            coconut : 10
+                        }
+                    }
+                ];
+        
+                var result = [
+                    {
+                        owd : {
+                            apple : 1,
+                            pear : 10,
+                            orange : 20,
+                            coconut : 10
+                        }
+                    }
+                ];
+        
+                var orderResult = {
+                    apple : 0,
+                    pear: 0,
+                    orange : 0,
+                    coconut : 0
+                };
+        
+                var warehousesResult = [
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 0,
+                            pear : 0,
+                            orange : 0,
+                            coconut : 0
+                        }
+                    }
+                ];
+                
+                expect(cheapestShipment( order, warehouses)).toEqual(result);
                 expect(order).toEqual(orderResult);
                 expect(warehouses).toEqual(warehousesResult);
             });
@@ -76,13 +134,15 @@ describe("test valid inputs" , () => {
                 var order = {
                     apple : 1
                 };
-            
-                var warehouses = [{
+
+                var warehouses = [
+                    {
                         name : "owd",
                         inventory : {
                             apple : 10
                         }
-                }];
+                    }
+                ];
         
                 var result = [
                     {
@@ -105,7 +165,62 @@ describe("test valid inputs" , () => {
                     }
                 ];
     
-                expect(cheapestOrder( order, warehouses )).toEqual(result);
+                expect(cheapestShipment( order, warehouses )).toEqual(result);
+                expect(order).toEqual(orderResult);
+                expect(warehouses).toEqual(warehousesResult);
+            });
+
+            test("with excess inventory and large order" , () => {
+                var order = {
+                    apple : 1,
+                    pear : 10,
+                    orange : 20,
+                    coconut : 10
+                };
+
+                var warehouses = [
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 10,
+                            pear: 10,
+                            orange : 30,
+                            coconut : 20
+                        }
+                    }
+                ];
+        
+                var result = [
+                    {
+                        owd : {
+                            apple : 1,
+                            pear : 10,
+                            orange : 20,
+                            coconut : 10
+                        }
+                    }
+                ];
+        
+                var orderResult = {
+                    apple : 0,
+                    pear: 0,
+                    orange : 0,
+                    coconut : 0
+                };
+        
+                var warehousesResult = [
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 9,
+                            pear: 0,
+                            orange : 10,
+                            coconut : 10
+                        }
+                    }
+                ];
+    
+                expect(cheapestShipment( order, warehouses )).toEqual(result);
                 expect(order).toEqual(orderResult);
                 expect(warehouses).toEqual(warehousesResult);
             });
@@ -164,7 +279,77 @@ describe("test valid inputs" , () => {
                     }
                 ];
         
-                expect(cheapestOrder(order, warehouses)).toEqual(result);
+                expect(cheapestShipment(order, warehouses)).toEqual(result);
+                expect(order).toEqual(orderResult);
+                expect(warehouses).toEqual(warehousesResult);
+            });
+
+            test("with exact inventory and large order", () => {
+                var order = {
+                    apple : 10,
+                    coconut : 20,
+                    mango :  40
+                };
+        
+                var warehouses = [
+                    {
+                        name : "dm",
+                        inventory : {
+                            apple : 5,
+                            coconut : 20,
+                            mango : 30
+                        }
+                    },
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 5,
+                            mango : 10
+                        }
+                    }
+                ];
+        
+                var result = [
+                    {
+                        dm : {
+                            apple : 5,
+                            coconut : 20,
+                            mango : 30
+                        }
+                    },
+                    {
+                        owd : {
+                            apple : 5,
+                            mango : 10
+                        }
+                    }
+                ];
+                
+                var orderResult = {
+                    apple : 0,
+                    coconut : 0,
+                    mango : 0
+                };
+        
+                var warehousesResult = [
+                    {
+                        name : "dm",
+                        inventory : {
+                            apple : 0,
+                            coconut : 0,
+                            mango : 0
+                        }
+                    },
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 0,
+                            mango : 0
+                        }
+                    }
+                ];
+        
+                expect(cheapestShipment(order, warehouses)).toEqual(result);
                 expect(order).toEqual(orderResult);
                 expect(warehouses).toEqual(warehousesResult);
             });
@@ -233,15 +418,112 @@ describe("test valid inputs" , () => {
                     }
                 ];
         
-                expect(cheapestOrder(order, warehouses)).toEqual(result);
+                expect(cheapestShipment(order, warehouses)).toEqual(result);
                 expect(order).toEqual(orderResult);
                 expect(warehouses).toEqual(warehousesResult);
+            });
+
+            test("with excess inventory and large order", () => {
+                var order = {
+                    apple : 10,
+                    mango : 20,
+                    watermelon : 40,
+                    book : 3
+                };
+        
+                var warehouses = [
+                    {
+                        name : "dm",
+                        inventory : {
+                            apple : 7,
+                            mango : 3,
+                            watermelon : 8
+                        }
+                    },
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 20,
+                            watermelon : 50
+                        }
+                    },
+                    {
+                        name : "dog",
+                        inventory : {
+                            apple : 10,
+                            book : 20,
+                            mango : 40
+                        }
+                    }
+                ];
+        
+                var result = [
+                    {
+                        dm : {
+                            apple : 7,
+                            mango : 3,
+                            watermelon : 8
+                        }
+                    },
+                    {
+                        owd : {
+                            apple : 3,
+                            watermelon : 32,
+                        }
+                    },
+                    {
+                        dog : {
+                            book : 3,
+                            mango : 17
+                        }
+                    }
+                ];
+                
+                var orderResult = {
+                    apple : 0,
+                    mango : 0,
+                    watermelon : 0,
+                    book : 0
+                };
+    
+                var warehousesResult = [
+                    {
+                        name : "dm",
+                        inventory : {
+                            apple : 0,
+                            mango : 0,
+                            watermelon : 0
+                        }
+                    },
+                    {
+                        name : "owd",
+                        inventory : {
+                            apple : 17,
+                            watermelon : 18
+                        }
+                    },
+                    {
+                        name : "dog",
+                        inventory : {
+                            apple : 10,
+                            book : 17,
+                            mango : 23
+                        }
+                    }
+                ];
+        
+                expect(cheapestShipment(order, warehouses)).toEqual(result);
+                expect(order).toEqual(orderResult);
+                expect(warehouses).toEqual(warehousesResult);
+            });
+
+            test("excess inventory and really big order", () => {
+                expect(cheapestShipment(bigOrder, bigWarehouses)).toEqual(bigResult);
             });
         });
     });
     
     describe("orders that cannot be shipped" , () => {
-
         describe("multiple warehouses", () => {
             test("due to not enough inventory", () => {
                 var order = {
@@ -263,7 +545,7 @@ describe("test valid inputs" , () => {
                     }
                 ]
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -299,7 +581,7 @@ describe("test valid inputs" , () => {
                     }
                 ]
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -326,7 +608,7 @@ describe("test valid inputs" , () => {
                     }
                 ];
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -363,7 +645,7 @@ describe("test valid inputs" , () => {
                     }
                 ];
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -384,7 +666,7 @@ describe("test valid inputs" , () => {
                     }
                 ];
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -408,7 +690,7 @@ describe("test valid inputs" , () => {
                     }
                 ];
 
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -427,7 +709,7 @@ describe("test valid inputs" , () => {
                     }
                 ];
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });
@@ -451,7 +733,7 @@ describe("test valid inputs" , () => {
                     }
                 ];
     
-                expect(cheapestOrder(order, warehouses)).toEqual([]);
+                expect(cheapestShipment(order, warehouses)).toEqual([]);
                 expect(order).toEqual(order);
                 expect(warehouses).toEqual(warehouses);
             });

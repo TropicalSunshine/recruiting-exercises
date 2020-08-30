@@ -40,14 +40,29 @@ const cheapestShipment = (
     // fullfil order and update the warehouse
     var shipment = [];
 
+    //sort tempStore by warehouse index
+    tempStore.sort((a, b) => {
+        return a[0] - b[0];
+    });
+
+    var prevIndex = 0;
+    var shipmentEntry = {
+        [ warehouses[tempStore[0][0]].name ] : {}
+    };
+    
     for(var store of tempStore) {
 
         const [ wIndex, item ] = store;
         const { name, inventory } = warehouses[wIndex];
+        
+        if(wIndex !== prevIndex) {
+            shipment.push(shipmentEntry);
 
-        var shipmentEntry = {
-            [ name ] : {}
-        };
+            shipmentEntry = {
+                [ name ] : {}
+            };
+
+        }
         
         if( inventory[item] > order[item]){
             shipmentEntry[name][item] = order[item]; 
@@ -59,8 +74,10 @@ const cheapestShipment = (
             inventory[item] = 0;
         }
 
-        shipment.push(shipmentEntry);
+        prevIndex = wIndex;
     }
+
+    shipment.push(shipmentEntry);
 
     return shipment;
 }
