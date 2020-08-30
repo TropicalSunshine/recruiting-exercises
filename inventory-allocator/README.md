@@ -6,7 +6,7 @@ Jason Liu submission . Solution code is posted in the `./inventory-allocator/src
 * if a order cannot be fulfilled or only partially fulfilled the warehouses and order objects are not updated
 * if a order can be fulfilled then the warehouses are updated accordingly along with the order object.
 * inventory quantity are whole numbers and cannot be a float
-* input is the correct type and format
+* input is the correct type
 
 ### Running Tests
 
