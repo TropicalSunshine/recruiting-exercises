@@ -1,5 +1,6 @@
 # Submission
-Jason Liu submission . Solution code is posted in the `./inventory-allocator/src/cheapestShipment.js` folder. Tests made with Jest testing library. 
+Jason Liu submission . Solution code is posted in the `./inventory-allocator/src` folder. 
+Tests are located in `./inventory-allocator/src/test` folder. Tests made with Jest testing library. 
 
 ### Assumptions
 
@@ -11,7 +12,7 @@ Jason Liu submission . Solution code is posted in the `./inventory-allocator/src
 ### Running Tests
 
 1. install npm
-2. navigate to the source folder `./inventory-allocator/src` and run `npm install`
+2. navigate to the source folder `./inventory-allocator/src` and run `npm install` to install dependencies
 3. run the tests via Jest by typing `npm run test`
     * tests will be displayed in the terminal
     * a more comprehensive test report can be found in `./inventory-allocator/coverage/lcov-report/index.html` 
