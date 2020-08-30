@@ -1,3 +1,20 @@
+# Submission Notes
+Jason Liu Submission. Solution code is posted in the `./inventory-allocator/src/cheapestShipment.js` folder. Tests made with Jest testing library. 
+
+### Assumptions
+
+* if a order cannot be fulfilled or only partially fulfilled the warehouses and order objects are not updated
+* if a order can be fulfilled then the warehouses are updated accordingly along with the order object.
+* inventory quantity are whole numbers and cannot be a float
+* input is the correct type and format
+
+### Running Tests
+
+1. install npm
+2. navigate to the source folder `./inventory-allocator/src` and run `npm install`
+3. run the tests via Jest by typing `npm run test`
+    * tests will be displayed in the terminal
+    * a more comprehensive test report can be found in `./inventory-allocator/coverage/lcov-report/index.html` 
 
 
 ## Problem
