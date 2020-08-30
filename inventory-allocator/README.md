@@ -1,4 +1,4 @@
-# Submission Notes
+# Submission
 Jason Liu submission . Solution code is posted in the `./inventory-allocator/src/cheapestShipment.js` folder. Tests made with Jest testing library. 
 
 ### Assumptions
