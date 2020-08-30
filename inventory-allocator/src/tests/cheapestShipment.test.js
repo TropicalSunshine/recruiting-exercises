@@ -1,5 +1,5 @@
 const cheapestShipment = require("../cheapestShipment");
-const { bigOrder, bigWarehouses, bigResult } = require("./largeInputs");
+const { bigOrder, bigWarehouses, bigResult } = require("./bigInputs");
 
 describe("test invalid inputs" ,  () => {
 
