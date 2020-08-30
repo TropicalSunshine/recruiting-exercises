@@ -8,8 +8,7 @@
     "jest": "^26.4.2"
   },
   "scripts": {
-    "test": "jest --coverage",
-    "doc" : "./node_modules/.bin/jsdoc ./src/cheapestOrder.js"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
