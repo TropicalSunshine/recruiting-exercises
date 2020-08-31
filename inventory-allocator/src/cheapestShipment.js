@@ -12,8 +12,7 @@ const cheapestShipment = (
     if(!warehouses) return [];
     if(!Array.isArray(warehouses)) return [];
 
-    // result
-    var shipment = [];
+    
     // array of tuples
     // [ warehouse index, order item key]
     var tempStore = [];
@@ -22,7 +21,7 @@ const cheapestShipment = (
         var itemsNeeded = order[item];
 
         for(var i = 0; i < warehouses.length; i++ ) {
-            //check to see if warehouse has that item
+            // check to see if warehouse has that item
             const { inventory } = warehouses[i];
 
             if(itemsNeeded <= 0) break;
@@ -36,15 +35,17 @@ const cheapestShipment = (
         if(itemsNeeded > 0) return [];
     }
 
-    // order can be fullfilled
-    // fullfil order and update the warehouse
+    // order can be fulfilled
+    // fulfill order and update the warehouse
+    
+    // result
     var shipment = [];
 
     //sort tempStore by warehouse index
     tempStore.sort((a, b) => {
         return a[0] - b[0];
     });
-
+    
     var prevIndex = 0;
     var shipmentEntry = {
         [ warehouses[tempStore[0][0]].name ] : {}
@@ -55,13 +56,14 @@ const cheapestShipment = (
         const [ wIndex, item ] = store;
         const { name, inventory } = warehouses[wIndex];
         
+        // if a new warehouse is reached then push the shipment entries into results
+        // and begin a new shipment entry
         if(wIndex !== prevIndex) {
             shipment.push(shipmentEntry);
 
             shipmentEntry = {
                 [ name ] : {}
             };
-
         }
         
         if( inventory[item] > order[item]){
